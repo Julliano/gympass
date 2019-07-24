@@ -1,16 +1,22 @@
 const fs = require('fs');
 
+let names;
 function readLog() {
-    var names = fs.readFileSync("./logs/logKart.txt").toString().split("\n");
-    bestRaceLap = null;
-    names.splice(0,1);
-    names = splitLogLines(names);
-    arrival = endPosition(names);
-    arrival = mediumSpeed(arrival);
-    orderByTotalTime(arrival);
-    createArriveAtribute(arrival);
-    console.log(printBestLap());
-    console.log(printEndPositions());
+    fs.readFile("./logs/logKart.txt", 'utf-8', (err, content) => {
+        if (err) {
+            return console.log(new Error('Erro na leitura do arquivo'));
+        }
+        names = content.toString().split("\n");
+        bestRaceLap = null;
+        names.splice(0,1);
+        names = splitLogLines(names);
+        arrival = endPosition(names);
+        arrival = mediumSpeed(arrival);
+        orderByTotalTime(arrival);
+        createArriveAtribute(arrival);
+        console.log(printBestLap());
+        console.log(printEndPositions());
+    });
 }
 
 function splitLogLines(names) {
@@ -138,7 +144,7 @@ function checkDigtLength(time) {
 }
 
 function printBestLap() {
-    return `Best lap: ${bestRaceLap.Racer}, Lap Nº: ${bestRaceLap['Lap nº']}, Time: ${bestRaceLap['Lap Time']}`
+    return `\nBest lap: ${bestRaceLap.Racer}, Lap Nº: ${bestRaceLap['Lap nº']}, Time: ${bestRaceLap['Lap Time']} \n`
 }
 
 function printEndPositions() {
